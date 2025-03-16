@@ -9,20 +9,33 @@ export default function Task({ task }: { task: {id: number, isChecked: boolean, 
 
   return (
     <div className="flex items-center gap-2 px-2 py-1 border-1 border-border bg-card rounded-md">
-      <Checkbox className="w-5 h-5" defaultChecked={task.isChecked} onCheckedChange={(value: boolean) => checkTask(task.id, value)}/>
+      <Checkbox
+        className="w-5 h-5"
+        defaultChecked={task.isChecked}
+        onCheckedChange={(value: boolean) => checkTask(task.id, value)}
+      />
 
       <TooltipProvider>
         <Tooltip delayDuration={500}>
           <TooltipTrigger asChild>
-            <span className="truncate flex-1">{task.text}</span>
+            <span className={`truncate flex-1 ${task.isChecked && "line-through"}`}>
+              {task.text}
+            </span>
           </TooltipTrigger>
-          <TooltipContent className="max-w-xs break-words">
-            <p>{task.text}</p>
-          </TooltipContent>
+          {task.text.length > 45 && (
+            <TooltipContent className="max-w-xs break-words">
+              <p>{task.text}</p>
+            </TooltipContent>
+          )}
         </Tooltip>
       </TooltipProvider>
 
-      <Button variant={"ghost"} size={"icon"} className="ml-auto" onClick={() => deleteTask(task.id)}>
+      <Button
+        variant={"ghost"}
+        size={"icon"}
+        className="ml-auto"
+        onClick={() => deleteTask(task.id)}
+      >
         <Trash2 />
       </Button>
     </div>
